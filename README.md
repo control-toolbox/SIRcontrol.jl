@@ -1,19 +1,19 @@
 # SIRcontrol.jl
 
-[ci-img]: https://github.com/control-toolbox/CTApp.jl/actions/workflows/CI.yml/badge.svg?branch=main
-[ci-url]: https://github.com/control-toolbox/CTApp.jl/actions/workflows/CI.yml?query=branch%3Amain
+[ci-img]: https://github.com/control-toolbox/SIRcontrol.jl/actions/workflows/CI.yml/badge.svg?branch=main
+[ci-url]: https://github.com/control-toolbox/SIRcontrol.jl/actions/workflows/CI.yml?query=branch%3Amain
 
-[co-img]: https://codecov.io/gh/control-toolbox/CTApp.jl/branch/main/graph/badge.svg?token=YM5YQQUSO3
-[co-url]: https://codecov.io/gh/control-toolbox/CTApp.jl
+[co-img]: https://codecov.io/gh/control-toolbox/SIRcontrol.jl/branch/main/graph/badge.svg?token=YM5YQQUSO3
+[co-url]: https://codecov.io/gh/control-toolbox/SIRcontrol.jl
 
 [doc-dev-img]: https://img.shields.io/badge/docs-dev-8A2BE2.svg
-[doc-dev-url]: https://control-toolbox.org/CTApp.jl/dev/
+[doc-dev-url]: https://control-toolbox.org/SIRcontrol.jl/dev/
 
 [doc-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[doc-stable-url]: https://control-toolbox.org/CTApp.jl/stable/
+[doc-stable-url]: https://control-toolbox.org/SIRcontrol.jl/stable/
 
 [licence-img]: https://img.shields.io/badge/License-MIT-yellow.svg
-[licence-url]: https://github.com/control-toolbox/CTApp.jl/blob/master/LICENSE
+[licence-url]: https://github.com/control-toolbox/SIRcontrol.jl/blob/master/LICENSE
 
 [aqua-img]: https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg
 [aqua-url]: https://github.com/JuliaTesting/Aqua.jl
