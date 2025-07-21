@@ -3,9 +3,6 @@
 [ci-img]: https://github.com/AnasXbouali/SIRcontrol.jl/actions/workflows/CI.yml/badge.svg?branch=main
 [ci-url]: https://github.com/AnasXbouali/SIRcontrol.jl/actions/workflows/CI.yml?query=branch%3Amain
 
-[co-img]: https://codecov.io/gh/AnasXbouali/SIRcontrol.jl/branch/main/graph/badge.svg?token=YM5YQQUSO3
-[co-url]: https://codecov.io/gh/AnasXbouali/SIRcontrol.jl
-
 [doc-dev-img]: https://img.shields.io/badge/docs-dev-8A2BE2.svg
 [doc-dev-url]: https://AnasXbouali.github.io/SIRcontrol.jl/dev/
 
@@ -29,7 +26,7 @@ The control-toolbox ecosystem gathers Julia packages for mathematical control an
 | **Name**          | **Badge**         |
 :-------------------|:------------------|
 | Documentation     | [![Documentation][doc-stable-img]][doc-stable-url] [![Documentation][doc-dev-img]][doc-dev-url]                   | 
-| Code Status       | [![Build Status][ci-img]][ci-url] [![Covering Status][co-img]][co-url] [![Aqua.jl][aqua-img]][aqua-url] [![Code Style: Blue][blue-img]][blue-url] |
+| Code Status       | [![Build Status][ci-img]][ci-url] [![Aqua.jl][aqua-img]][aqua-url] [![Code Style: Blue][blue-img]][blue-url] |
 | Licence           | [![License: MIT][licence-img]][licence-url]   |
 
 ## Contributing
