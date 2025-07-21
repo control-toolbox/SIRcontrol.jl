@@ -1,7 +1,5 @@
 # SIRcontrol.jl
 
-----
-
 [ci-img]: https://github.com/control-toolbox/CTApp.jl/actions/workflows/CI.yml/badge.svg?branch=main
 [ci-url]: https://github.com/control-toolbox/CTApp.jl/actions/workflows/CI.yml?query=branch%3Amain
 
