@@ -27,11 +27,10 @@ We consider the **SIR model** with a control variable $u(t)$ (representing socia
 \end{cases}
 ```
 
-* $S(t)$, $I(t)$: Susceptible and infected population fractions  
-* $u(t) \in [0, \bar{u}]$: Intervention intensity (lockdown) 
-* $\beta(t)$: Transmission rate  
-* $\gamma$: Recovery rate
-
+* \(S(t), I(t)\): Susceptible and infected population fractions
+* \(u(t) \in [0, \bar u]\): Intervention intensity (lockdown)
+* \(\beta(t)\): Transmission rate
+* \(\gamma\): Recovery rate
 ---
 
 ### **Transmission Scenarios**
@@ -78,9 +77,8 @@ We impose an **$L^1$ budget constraint** on the intervention:
 \|u(\cdot)\|_{L^1} = \int_0^{\infty} u(t) \, dt \leq K
 ```
 
-* $K > 0$: Total budget
-* $\bar{u}$: Control upper bound
-
+* \(K > 0\): Total budget
+* \(\bar{u}\): Control upper bound
 
 > This approach extends optimal control problems by requiring that each intervention occur within an interval of the form $[t, t + \delta]$, where $t$ is a decision variable.
 

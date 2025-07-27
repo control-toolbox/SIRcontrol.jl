@@ -8,11 +8,46 @@ using LaTeXStrings
 using Roots
 ```
 
+We consider a piecewise constant transmission rate that is given by
+
+```math
+\beta(t) = \begin{cases}
+\beta_1, \quad \text{if } t < T_c \\[5pt]
+\beta_2, \quad \text{if } t > T_c,
+\end{cases}
+```
+
+Furthermore, we consider its regularization using a sigmoid function:
 
 ```@example main
-function beta(t, τ, β1, β2, k=300)
+function beta(t, τ, β1, β2, k)
     return β1 + (β2 - β1) / (1 + exp(-k * (t - τ))) 
 end
+```
+
+```@example main
+function beta_(t)
+    if t<=150
+        return 0.8
+    else 
+        return 0.4
+    end
+end
+
+k = 300 # regularization parameter
+
+plot(beta_ , 0, 300, label = L"$\beta$", color = :black, lw = 5,
+    grid = false,
+    size = (1600, 1000),
+    legendfontsize = 24,
+    tickfontsize = 20,
+    guidefontsize = 26,
+    framestyle = :box,
+    foreground_color_subplot = :black
+)
+
+plot!(t -> beta(t, 150, 0.8, 0.4, k), label = L"$\beta_k$", 
+color = :red, linestyle = :dash, lw = 5, grid = false)
 ```
 
 ```@example main
@@ -27,9 +62,6 @@ Q_    = 35
 β21   = 0.7
 β22   = 0.4
 umax_ = 0.8
-k = 300         # regularization parameter
-
-plot(t -> beta(t, τ, β11, β12, k), 0, tf_, label = L"$\beta$", color = :black, lw = 2, grid = false)
 ```
 
 ```@example main
@@ -74,6 +106,8 @@ end
 ```@example main
 sol1_ = SIRocp2beta(tf_, S0_, I0_, Q_, τ, β11, β12, γ_, umax_, k)
 sol2_ = SIRocp2beta(tf_, S0_, I0_, Q_, τ, β21, β22, γ_, umax_, k)
+sol3_ = SIRocp2beta(tf_, S0_, I0_, Q_, 150, 0.4, 0.8, γ_, umax_, k)
+sol4_ = SIRocp2beta(tf_, S0_, I0_, Q_, 100, 0.2, 0.8, γ_, umax_, k)
 ```
 
 ## case 1: $\beta_1 > \beta_2$ (two interventions)
@@ -83,131 +117,194 @@ sol2_ = SIRocp2beta(tf_, S0_, I0_, Q_, τ, β21, β22, γ_, umax_, k)
 gr()
 
 plot(
-    t -> state(sol1_)(t)[1], 0, tf_,
-    label = L"$S$", color = :darkblue, lw = 2,
-    grid = false
+    t -> state(sol1_)(t)[1], 0, tf,
+    label = false, color = :darkblue, lw = 5,
+    grid = false,
+    size = (1600, 1000),
+    legendfontsize = 24,
+    tickfontsize = 20,
+    guidefontsize = 26,
+    framestyle = :box,
+    foreground_color_subplot = :black
 )
 
 plot!(
-    t -> state(sol1_)(t)[2], 0, tf_,
-    label = L"$I$", color = :darkgreen, lw = 2
+    t -> state(sol1_)(t)[2], 0, tf,
+    label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf_], [γ_/ β11, γ_/ β11],
-    label = L"$S_h^1$", lw = 2, ls = :dash, color = :black
+    [0, tf], [γ_/β11, γ_/β11],
+    label = false, lw = 3, ls = :dash, color = :black
 )
+
 plot!(
-    [0, tf_], [γ_/ β12, γ_/ β12],
-    label = L"$S_h^2$", lw = 2, ls = :dash, color = :purple
+    [0, tf], [γ_/β12, γ_/β12],
+    label = false, lw = 3, ls = :dash, color = :purple
 )
+
 plot!(
-    t -> control(sol1_)(t)[1], 0, tf_,
-    label = L"$u$", color = :darkred, lw = 2,
-    grid = false
+    t -> control(sol1_)(t)[1], 0, tf,
+    label = false, color = :darkred, lw = 5
 )
-vline!([τ], lw=2, color = "black", linestyle = :dash, label = L"$\tau$")
+
+vline!(
+    [τ], lw = 3, color = :black, linestyle = :dashdot, label = false
+)
+
+plot!([NaN], [NaN], label = L"$S$",       lw = 2, color = :darkblue)
+plot!([NaN], [NaN], label = L"$I$",       lw = 2, color = :darkgreen)
+plot!([NaN], [NaN], label = L"$S_h^1$",   lw = 1.5, ls = :dash, color = :black)
+plot!([NaN], [NaN], label = L"$S_h^2$",   lw = 1.5, ls = :dash, color = :purple)
+plot!([NaN], [NaN], label = L"$u$",       lw = 2, color = :darkred)
+plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :black)
 ```
 
-## case 1bis: $\beta_1 > \beta_2$ (one interventions)
+## case 2: $\beta_1 > \beta_2$ (one interventions)
 
 ```@example main
 gr()
 
 plot(
-    t -> state(sol2_)(t)[1], 0, tf_,
-    label = L"$S$", color = :darkblue, lw = 2,
-    grid = false
+    t -> state(sol2_)(t)[1], 0, tf,
+    label = false, color = :darkblue, lw = 5,
+    grid = false,
+    size = (1600, 1000),
+    legendfontsize = 24,
+    tickfontsize = 20,
+    guidefontsize = 26,
+    framestyle = :box,
+    foreground_color_subplot = :black
 )
 
 plot!(
-    t -> state(sol2_)(t)[2], 0, tf_,
-    label = L"$I$", color = :darkgreen, lw = 2
+    t -> state(sol2_)(t)[2], 0, tf,
+    label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf_], [γ_/ β21, γ_/ β21],
-    label = L"$S_h^1$", lw = 2, ls = :dash, color = :black
+    [0, tf], [γ_/β21, γ_/β21],
+    label = false, lw = 3, ls = :dash, color = :black
 )
+
 plot!(
-    [0, tf_], [γ_/ β22, γ_/ β22],
-    label = L"$S_h^2$", lw = 2, ls = :dash, color = :purple
+    [0, tf], [γ_/β22, γ_/β22],
+    label = false, lw = 3, ls = :dash, color = :purple
 )
+
 plot!(
-    t -> control(sol2_)(t)[1], 0, tf_,
-    label = L"$u$", color = :darkred, lw = 2,
-    grid = false
+    t -> control(sol2_)(t)[1], 0, tf,
+    label = false, color = :darkred, lw = 5
 )
-vline!([τ], lw=2, color = "black", linestyle = :dash, label = L"$\tau$")
+
+vline!(
+    [τ], lw = 3, color = :black, linestyle = :dashdot, label = false
+)
+
+plot!([NaN], [NaN], label = L"$S$",       lw = 2, color = :darkblue)
+plot!([NaN], [NaN], label = L"$I$",       lw = 2, color = :darkgreen)
+plot!([NaN], [NaN], label = L"$S_h^1$",   lw = 1.5, ls = :dash, color = :black)
+plot!([NaN], [NaN], label = L"$S_h^2$",   lw = 1.5, ls = :dash, color = :purple)
+plot!([NaN], [NaN], label = L"$u$",       lw = 2, color = :darkred)
+plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :black)
 ```
+
+
+## case 3: $\beta_1 < \beta_2$ (two interventions)
+
 
 ```@example main
-sol3_ = SIRocp2beta(tf_, S0_, I0_, Q_, 150, 0.4, 0.8, γ_, umax_, k)
-sol4_ = SIRocp2beta(tf_, S0_, I0_, Q_, 100, 0.2, 0.8, γ_, umax_, k)
+gr()
+plot(
+    t -> state(sol3_)(t)[1], 0, tf,
+    label = false, color = :darkblue, lw = 5,
+    grid = false,
+    size = (1600, 1000),
+    legendfontsize = 24,
+    tickfontsize = 20,
+    guidefontsize = 26,
+    framestyle = :box,
+    foreground_color_subplot = :black
+)
+
+plot!(
+    t -> state(sol3_)(t)[2], 0, tf,
+    label = false, color = :darkgreen, lw = 5
+)
+
+plot!(
+    [0, tf], [γ_/0.4, γ_/0.4],
+    label = false, lw = 3, ls = :dash, color = :black
+)
+
+plot!(
+    [0, tf], [γ_/0.8, γ_/0.8],
+    label = false, lw = 3, ls = :dash, color = :purple
+)
+
+plot!(
+    t -> control(sol3_)(t)[1], 0, tf,
+    label = false, color = :darkred, lw = 5
+)
+
+vline!(
+    [150], lw = 3, color = :black, linestyle = :dashdot, label = false
+)
+
+# Dummy legend entries
+plot!([NaN], [NaN], label = L"$S$",       lw = 2, color = :darkblue)
+plot!([NaN], [NaN], label = L"$I$",       lw = 2, color = :darkgreen)
+plot!([NaN], [NaN], label = L"$S_h^1$",   lw = 1.5, ls = :dash, color = :black)
+plot!([NaN], [NaN], label = L"$S_h^2$",   lw = 1.5, ls = :dash, color = :purple)
+plot!([NaN], [NaN], label = L"$u$",       lw = 2, color = :darkred)
+plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :black)
 ```
 
-## case 2: $\beta_1 < \beta_2$ (two interventions)
-
+## case 4: $\beta_1 < \beta_2$ (one interventions)
 
 ```@example main
 gr()
 
 plot(
-    t -> state(sol3_)(t)[1], 0, tf_,
-    label = L"$S$", color = :darkblue, lw = 2,
-    grid = false
+    t -> state(sol4_)(t)[1], 0, tf,
+    label = false, color = :darkblue, lw = 5,
+    grid = false,
+    size = (1600, 1000),
+    legendfontsize = 24,
+    tickfontsize = 20,
+    guidefontsize = 26,
+    framestyle = :box,
+    foreground_color_subplot = :black
 )
 
 plot!(
-    t -> state(sol3_)(t)[2], 0, tf_,
-    label = L"$I$", color = :darkgreen, lw = 2
+    t -> state(sol4_)(t)[2], 0, tf,
+    label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf_], [γ_/ 0.4, γ_/ 0.4],
-    label = L"$S_h^1$", lw = 2, ls = :dash, color = :black
-)
-plot!(
-    [0, tf_], [γ_/ 0.8, γ_/ 0.8],
-    label = L"$S_h^2$", lw = 2, ls = :dash, color = :purple
-)
-plot!(
-    t -> control(sol3_)(t)[1], 0, tf_,
-    label = L"$u$", color = :darkred, lw = 2,
-    grid = false
-)
-vline!([150], lw=2, color = "black", linestyle = :dash, label = L"$\tau$")
-
-```
-
-## case 2bis: $\beta_1 < \beta_2$ (one interventions)
-
-```@example main
-gr()
-
-plot(
-    t -> state(sol4_)(t)[1], 0, tf_,
-    label = L"$S$", color = :darkblue, lw = 2,
-    grid = false
+    [0, tf], [γ_/0.2, γ_/0.2],
+    label = false, lw = 3, ls = :dash, color = :black
 )
 
 plot!(
-    t -> state(sol4_)(t)[2], 0, tf_,
-    label = L"$I$", color = :darkgreen, lw = 2
+    [0, tf], [γ_/0.8, γ_/0.8],
+    label = false, lw = 3, ls = :dash, color = :purple
 )
 
 plot!(
-    [0, tf_], [γ_/ 0.2, γ_/ 0.2],
-    label = L"$S_h^1$", lw = 2, ls = :dash, color = :black
+    t -> control(sol4_)(t)[1], 0, tf,
+    label = false, color = :darkred, lw = 5
 )
-plot!(
-    [0, tf_], [γ_/ 0.8, γ_/ 0.8],
-    label = L"$S_h^2$", lw = 2, ls = :dash, color = :purple
+
+vline!(
+    [100], lw = 3, color = :black, linestyle = :dashdot, label = false
 )
-plot!(
-    t -> control(sol4_)(t)[1], 0, tf_,
-    label = L"$u$", color = :darkred, lw = 2,
-    grid = false
-)
-vline!([100], lw=2, color = "black", linestyle = :dash, label = L"$\tau$")
+
+plot!([NaN], [NaN], label = L"$S$",       lw = 2, color = :darkblue)
+plot!([NaN], [NaN], label = L"$I$",       lw = 2, color = :darkgreen)
+plot!([NaN], [NaN], label = L"$S_h^1$",   lw = 2, ls = :dash, color = :black)
+plot!([NaN], [NaN], label = L"$S_h^2$",   lw = 2, ls = :dash, color = :purple)
+plot!([NaN], [NaN], label = L"$u$",       lw = 2, color = :darkred)
+plot!([NaN], [NaN], label = L"$\tau$",    lw = 2, ls = :dashdot, color = :black)
 ```
