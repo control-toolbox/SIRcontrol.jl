@@ -117,7 +117,7 @@ sol4_ = SIRocp2beta(tf_, S0_, I0_, Q_, 100, 0.2, 0.8, γ_, umax_, k)
 gr()
 
 plot(
-    t -> state(sol1_)(t)[1], 0, tf,
+    t -> state(sol1_)(t)[1], 0, tf_,
     label = false, color = :darkblue, lw = 5,
     grid = false,
     size = (1600, 1000),
@@ -129,22 +129,22 @@ plot(
 )
 
 plot!(
-    t -> state(sol1_)(t)[2], 0, tf,
+    t -> state(sol1_)(t)[2], 0, tf_,
     label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf], [γ_/β11, γ_/β11],
+    [0, tf_], [γ_/β11, γ_/β11],
     label = false, lw = 3, ls = :dash, color = :black
 )
 
 plot!(
-    [0, tf], [γ_/β12, γ_/β12],
+    [0, tf_], [γ_/β12, γ_/β12],
     label = false, lw = 3, ls = :dash, color = :purple
 )
 
 plot!(
-    t -> control(sol1_)(t)[1], 0, tf,
+    t -> control(sol1_)(t)[1], 0, tf_,
     label = false, color = :darkred, lw = 5
 )
 
@@ -166,7 +166,7 @@ plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :blac
 gr()
 
 plot(
-    t -> state(sol2_)(t)[1], 0, tf,
+    t -> state(sol2_)(t)[1], 0, tf_,
     label = false, color = :darkblue, lw = 5,
     grid = false,
     size = (1600, 1000),
@@ -178,22 +178,22 @@ plot(
 )
 
 plot!(
-    t -> state(sol2_)(t)[2], 0, tf,
+    t -> state(sol2_)(t)[2], 0, tf_,
     label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf], [γ_/β21, γ_/β21],
+    [0, tf_], [γ_/β21, γ_/β21],
     label = false, lw = 3, ls = :dash, color = :black
 )
 
 plot!(
-    [0, tf], [γ_/β22, γ_/β22],
+    [0, tf_], [γ_/β22, γ_/β22],
     label = false, lw = 3, ls = :dash, color = :purple
 )
 
 plot!(
-    t -> control(sol2_)(t)[1], 0, tf,
+    t -> control(sol2_)(t)[1], 0, tf_,
     label = false, color = :darkred, lw = 5
 )
 
@@ -216,7 +216,7 @@ plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :blac
 ```@example main
 gr()
 plot(
-    t -> state(sol3_)(t)[1], 0, tf,
+    t -> state(sol3_)(t)[1], 0, tf_,
     label = false, color = :darkblue, lw = 5,
     grid = false,
     size = (1600, 1000),
@@ -228,22 +228,22 @@ plot(
 )
 
 plot!(
-    t -> state(sol3_)(t)[2], 0, tf,
+    t -> state(sol3_)(t)[2], 0, tf_,
     label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf], [γ_/0.4, γ_/0.4],
+    [0, tf_], [γ_/0.4, γ_/0.4],
     label = false, lw = 3, ls = :dash, color = :black
 )
 
 plot!(
-    [0, tf], [γ_/0.8, γ_/0.8],
+    [0, tf_], [γ_/0.8, γ_/0.8],
     label = false, lw = 3, ls = :dash, color = :purple
 )
 
 plot!(
-    t -> control(sol3_)(t)[1], 0, tf,
+    t -> control(sol3_)(t)[1], 0, tf_,
     label = false, color = :darkred, lw = 5
 )
 
@@ -266,7 +266,7 @@ plot!([NaN], [NaN], label = L"$\tau$",    lw = 1.5, ls = :dashdot, color = :blac
 gr()
 
 plot(
-    t -> state(sol4_)(t)[1], 0, tf,
+    t -> state(sol4_)(t)[1], 0, tf_,
     label = false, color = :darkblue, lw = 5,
     grid = false,
     size = (1600, 1000),
@@ -278,22 +278,22 @@ plot(
 )
 
 plot!(
-    t -> state(sol4_)(t)[2], 0, tf,
+    t -> state(sol4_)(t)[2], 0, tf_,
     label = false, color = :darkgreen, lw = 5
 )
 
 plot!(
-    [0, tf], [γ_/0.2, γ_/0.2],
+    [0, tf_], [γ_/0.2, γ_/0.2],
     label = false, lw = 3, ls = :dash, color = :black
 )
 
 plot!(
-    [0, tf], [γ_/0.8, γ_/0.8],
+    [0, tf_], [γ_/0.8, γ_/0.8],
     label = false, lw = 3, ls = :dash, color = :purple
 )
 
 plot!(
-    t -> control(sol4_)(t)[1], 0, tf,
+    t -> control(sol4_)(t)[1], 0, tf_,
     label = false, color = :darkred, lw = 5
 )
 
