@@ -31,7 +31,7 @@ where _S_, _I_ are the susceptible and infected population fractions, _u_ ∈ [0
 
 ### Transmission Scenarios
 
-We analyze two transmission models:
+We analyze two transmission cases:
 
 **1. Constant _β_:**
 
@@ -48,7 +48,7 @@ We analyze two transmission models:
 \end{cases}
 ```
 
-where _T_<sub>_c_</sub> is the time when the transmission rate _β_ changes.
+where _T_c_ is the time when the transmission rate _β_ changes.
 
 ---
 
