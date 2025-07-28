@@ -48,7 +48,7 @@ We analyze two transmission cases:
 \end{cases}
 ```
 
-where _T<sub>c</sub>_ is the time when the transmission rate _β_ changes.
+where _T_c is the time when the transmission rate _β_ changes.
 
 ---
 
