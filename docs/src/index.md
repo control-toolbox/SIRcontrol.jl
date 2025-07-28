@@ -2,91 +2,84 @@
 
 ## 📘 Introduction
 
-### **Context and Motivation**
+### Context and Motivation
 
 We revisit the problem of minimizing the epidemic final size in the **SIR model** through **social distancing interventions**.
+Traditionally, this problem assumes a fixed **interval structure** for the timing of interventions. In contrast, we investigate a more flexible approach: **L¹-constrained controls** that limit total intervention effort, rather than when and how it's applied.
 
-Traditionally, this problem assumes a fixed **interval structure** for the timing of interventions. In contrast, we investigate a more flexible approach: **$L^1$-constrained controls** that limit total intervention effort, rather than when and how it's applied.
-
-Key insight:
-
+**Key insight:**
 > Even with this generalization, the optimal control still occurs over a **single time interval** when the transmission rate is constant, and over at most **two (separate) time intervals** if the transmission rate changes once.
+
 ---
 
+## The SIR Model with Control
 
-## The SIR Model with Control 
+### System Dynamics
 
-### **System Dynamics**
-
-We consider the **SIR model** with a control variable $u(t)$ (representing social distancing):
+We consider the **SIR model** with a control variable _u_(_t_) (representing social distancing):
 
 ```math
 \begin{cases}
-\dot{S}(t) = -(1-u(t))\beta(t) S(t)I(t) \\[5pt]
+\dot{S}(t) = -(1-u(t))\beta(t) S(t)I(t) \\
 \dot{I}(t) = (1-u(t))\beta(t) S(t)I(t) - \gamma I(t)
 \end{cases}
 ```
 
-* S, I: Susceptible and infected population fractions
-* u ∈ [0, ̄u]: Intervention intensity (lockdown)
-* β: Transmission rate
-* γ: Recovery rate
+where _S_, _I_ are the susceptible and infected population fractions, _u_ ∈ [0, _ū_] is the intervention intensity (lockdown), _β_ is the transmission rate, and _γ_ is the recovery rate.
+
 ---
 
-### **Transmission Scenarios**
+### Transmission Scenarios
 
 We analyze two transmission models:
 
-1. **Constant $\beta$**  
+**1. Constant _β_:**
 
 ```math
-   \beta(t) = \beta_0 \quad \forall t \geq 0
+\beta(t) = \beta_0 \quad \forall t \geq 0
 ```
 
-2. **Piecewise Constant $\beta$**
+**2. Piecewise Constant _β_:**
 
 ```math
-   \beta(t) = \begin{cases}
-   \beta_1 & \text{if } 0 \leq t < T_c \\
-   \beta_2 & \text{if } t \geq T_c
-   \end{cases}
+\beta(t) = \begin{cases}
+\beta_1 & \text{if } 0 \leq t < T_c \\
+\beta_2 & \text{if } t \geq T_c
+\end{cases}
 ```
 
-where $T_c$ is the time when the transmission rate $\beta$ changes.
+where _T_<sub>_c_</sub> is the time when the transmission rate _β_ changes.
+
 ---
 
 ## Optimal Control Formulation
 
-### **Objective**
+### Objective
 
-Our goal: **Minimize the final epidemic size** = maximize $S(\infty)$.
+Our goal: **Minimize the final epidemic size** = maximize _S_(∞).
 
 ```math
 J(u) = S(\infty) = \lim_{t \to \infty} S(t)
 ```
 
-> Note that we deal with a non-standard cost function.
+> **Note:** We deal with a non-standard cost function.
+
 ---
 
+### Constraints
 
-### **Constraints**
-
-We impose an **$L^1$ budget constraint** on the intervention:
+We impose an **L¹ budget constraint** on the intervention:
 
 ```math
 \|u(\cdot)\|_{L^1} = \int_0^{\infty} u(t) \, dt \leq K
 ```
 
-* K > 0: Total budget
-* u: Control upper bound
+where _K_ > 0 is the total budget and _ū_ is the control upper bound.
 
-> This approach extends optimal control problems by requiring that each intervention occur within an interval of the form $[t, t + \delta]$, where $t$ is a decision variable.
-
----
-
+> This approach extends optimal control problems by requiring that each intervention occur within an interval of the form [_t_, _t_ + _δ_], where _t_ is a decision variable.
 
 Precisely, we consider the following set of admissible controls:
 
 ```math
-\mathcal{U} = \{u : [0,\infty) \to [0,\bar{u}] \,|\, u \text{ is measurable and } \|u\|_{L^1} \leq K \}
+\mathcal{U} = \left\{u : [0,\infty) \to [0,\bar{u}] \,\Big|\, u \text{ is measurable and } \|u\|_{L^1} \leq K \right\}
 ```
