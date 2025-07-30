@@ -44,26 +44,28 @@ end
 ```
 
 ```@example main
+
 tf   = 300
 γ    = 0.2
 S0   = 0.999
 I0   = 0.001
-Q    = 28
-β    = [0.6,0.9]
-umax = [0.9,  0.5]
+Q    = [28 , 10.]
+β    = [0.6, 0.9]
+umax = [1  , 0.5]
 
-sol1 = SIRocp(tf, S0, I0, Q, β[1], γ, umax[1]) 
-sol2 = SIRocp(tf, S0, I0, Q, β[2], γ, umax[2])
+sol1 = SIRocp(tf, S0, I0, Q[1], β[1], γ, umax[1]) 
+sol2 = SIRocp(tf, S0, I0, Q[2], β[2], γ, umax[2])
 ```
 
 
-## Case 1: $\beta = 0.6$ and $\bar{u} = 0.9$
+## Case 1: $\beta = 0.6$, $\bar{u} = 1$ and $Q=28$
 
 ```@example main
 plot(
     t -> state(sol1)(t)[1], 0, tf,
     label = false, color = :darkblue, lw = 5,
-    grid = false,
+    grid = true,
+    gridlinewidth = 1.5,
     size = (1600, 1000),          
     legendfontsize = 24,        
     tickfontsize = 20,           
@@ -90,13 +92,14 @@ plot!([NaN], [NaN], label=L"$S$", lw=2, color=:darkblue)
 plot!([NaN], [NaN], label=L"$I$", lw=2, color=:darkgreen)
 plot!([NaN], [NaN], label=L"$S_h$", lw=1.5, ls=:dash, color=:black)
 plot!([NaN], [NaN], label=L"$u$", lw=2, color=:darkred)
+xlims!(0,100)
 ```
 
 
 
 
 
-## Case 2: $\beta = 0.9$ and $\bar{u} = 0.5$
+## Case 2: $\beta = 0.9$, $\bar{u} = 0.5$ and $Q=10$
 
 
 ```@example main
@@ -104,8 +107,9 @@ gr()
 plot(
     t -> state(sol2)(t)[1], 0, tf,
     label = false, color = :darkblue, lw = 5,
-    grid = false,
-    size = (1600, 1000),          
+    grid = true,
+    gridlinewidth = 1.5,
+        size = (1600, 1000),          
     legendfontsize = 24,        
     tickfontsize = 20,           
     guidefontsize = 26,           
@@ -133,17 +137,18 @@ plot!([NaN], [NaN], label = L"$S$",   lw = 2, color = :darkblue)
 plot!([NaN], [NaN], label = L"$I$",   lw = 2, color = :darkgreen)
 plot!([NaN], [NaN], label = L"$S_h$", lw = 1.5, ls = :dash, color = :black)
 plot!([NaN], [NaN], label = L"$u$",   lw = 2, color = :darkred)
+xlims!(0,100)
 ```
 
 ```@example main
 ϕ2(t) = (costate(sol2)(t)[1]-costate(sol2)(t)[2])*β[2]*state(sol2)(t)[1]*state(sol2)(t)[2] - costate(sol2)(t)[3] # switching function
-t2 = find_zero(ϕ2, (0.0, 30), Bisection())
+t2 = find_zero(ϕ2, (0.0, 20), Bisection())
 ```
 
 ## Case 2: Plot of $\log(S(t_c)) - \log(S(t_c+\Delta))$
 
 ```@example main
-Δ2 = Q / umax[2]
+Δ2 = Q[2] / umax[2]
 
 tspan = (0.0, tf)
 
@@ -183,14 +188,16 @@ end
 ```
 
 ```@example main
+
 gr()
 
 plot(
     tcs, result_values_;
     label = false,
     lw = 5,
-    grid = false,
-    size = (1600, 1000),
+    grid = true,
+    gridlinewidth = 1.5,
+        size = (1600, 1000),
     legendfontsize = 24,
     tickfontsize = 20,
     guidefontsize = 26,
@@ -198,7 +205,7 @@ plot(
     color= :blue)
 
 plot!(
-    [t2, t2], [0, 1.9],
+    [t2, t2], [0, 1.64],
     linestyle = :dash,
     lw = 3,
     label = false,
@@ -207,6 +214,7 @@ plot!(
 
 plot!([NaN], [NaN], label = L"t_c \mapsto \log S(t_c) - \log S(t_c + \Delta)", lw = 2, color = :blue)
 plot!([NaN], [NaN], label = L"t^*", lw = 1.5, ls = :dash, color = :black)
+xlims!(0,50)
 ```
 
 
