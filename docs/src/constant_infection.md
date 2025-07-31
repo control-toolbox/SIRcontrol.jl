@@ -92,7 +92,7 @@ plot!([NaN], [NaN], label=L"$S$", lw=2, color=:darkblue)
 plot!([NaN], [NaN], label=L"$I$", lw=2, color=:darkgreen)
 plot!([NaN], [NaN], label=L"$S_h$", lw=1.5, ls=:dash, color=:black)
 plot!([NaN], [NaN], label=L"$u$", lw=2, color=:darkred)
-xlims!(0,100)
+xlims!(0,101)
 ```
 
 
@@ -137,7 +137,7 @@ plot!([NaN], [NaN], label = L"$S$",   lw = 2, color = :darkblue)
 plot!([NaN], [NaN], label = L"$I$",   lw = 2, color = :darkgreen)
 plot!([NaN], [NaN], label = L"$S_h$", lw = 1.5, ls = :dash, color = :black)
 plot!([NaN], [NaN], label = L"$u$",   lw = 2, color = :darkred)
-xlims!(0,100)
+xlims!(0,101)
 ```
 
 ```@example main
@@ -214,7 +214,7 @@ plot!(
 
 plot!([NaN], [NaN], label = L"t_c \mapsto \log S(t_c) - \log S(t_c + \Delta)", lw = 2, color = :blue)
 plot!([NaN], [NaN], label = L"t^*", lw = 1.5, ls = :dash, color = :black)
-xlims!(0,50)
+xlims!(0,51)
 ```
 
 
