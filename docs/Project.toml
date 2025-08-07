@@ -6,7 +6,6 @@ NLPModelsIpopt = "f4238b75-b362-5c4c-b852-0801c9a21d71"
 OptimalControl = "5f98b655-cc9a-415a-b60e-744165666948"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
-SIRcontrol = "0c23efa9-24f1-4dcb-bd9c-3183634b0392"
 
 [compat]
 DifferentialEquations = "7.16"
