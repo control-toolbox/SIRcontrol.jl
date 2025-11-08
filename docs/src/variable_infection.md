@@ -164,7 +164,7 @@ function SIRocp2beta(T, S0, I0, Q, τ, β1, β2, γ, umax)
 	                    grid_size=4000,
 	                    init=sol,
                         tol=1e-8)
-	end
+
 	return sol
 end
 ```
