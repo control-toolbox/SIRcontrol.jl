@@ -1,7 +1,6 @@
 ```@example main
 using OptimalControl
 using NLPModelsIpopt
-using MadNLP
 using Plots
 using Plots.PlotMeasures
 using LaTeXStrings
@@ -134,32 +133,32 @@ function SIRocp2beta(T, S0, I0, Q, τ, β1, β2, γ, umax)
 	end
 
 	sol = nothing
-	sol = solve(ocp, :direct, :adnlp, :madnlp;
+	sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=50,
 	                    init=sol,
                         tol=1e-8)
-    sol = solve(ocp, :direct, :adnlp, :madnlp;
+    sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=500,
 	                    init=sol,
                         tol=1e-8)
-    sol = solve(ocp, :direct, :adnlp, :madnlp;
+    sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=2000,
 	                    init=sol,
                         tol=1e-6)
-    sol = solve(ocp, :direct, :adnlp, :madnlp;
+    sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=2000,
 	                    init=sol,
                         tol=1e-9)
-    sol = solve(ocp, :direct, :adnlp, :madnlp;
+    sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=4000,
 	                    init=sol,
                         tol=1e-6)
-	sol = solve(ocp, :direct, :adnlp, :madnlp;
+	sol = solve(ocp, :direct, :adnlp, :ipopt;
 	                    disc_method = :midpoint,
 	                    grid_size=4000,
 	                    init=sol,
