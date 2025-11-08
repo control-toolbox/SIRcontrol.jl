@@ -1,7 +1,7 @@
 ```@example main
 using OptimalControl
 using NLPModelsIpopt
-using DifferentialEquations
+using MadNLP
 using Plots
 using Plots.PlotMeasures
 using LaTeXStrings
