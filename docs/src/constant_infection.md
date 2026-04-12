@@ -8,38 +8,39 @@ using LaTeXStrings
 using Roots
 ```
 
-
 ```@example main
 function SIRocp(tf, S0, I0, Q, β, γ, umax)
-	    ocp = @def begin
-	        t ∈ [0, tf], time
-	        x = (S, I, C) ∈ R^3, state
-	        u ∈ R, control
-	
-	        S(0) == S0
-	        I(0) == I0
-	        C(0) == Q
-	
-	        C(tf) ≥ 0.0
-	
-	        0 ≤ u(t) ≤ umax
-	
-	        0.0 ≤ I(t) ≤ 1.0
-	        0.0 ≤ S(t) ≤ 1.0
-	
-	        ẋ(t) == [-(1 - u(t)) * β * S(t) * I(t),
-	                  (1 - u(t)) * β * S(t) * I(t) - γ * I(t),
-	                -u(t)]
-	
-	        -S(tf) → min
-	    end
-	
-	    sol = solve(ocp, :direct, :adnlp, :ipopt; 
-	                    disc_method = :gauss_legendre_3, 
-	                    grid_size=1000, 
-                            tol=1e-9, 
-	                    display=true)
-            return sol
+    ocp = @def begin
+        t ∈ [0, tf], time
+        x = (S, I, C) ∈ R^3, state
+        u ∈ R, control
+
+        S(0) == S0
+        I(0) == I0
+        C(0) == Q
+
+        C(tf) ≥ 0.0
+
+        0 ≤ u(t) ≤ umax
+
+        0.0 ≤ I(t) ≤ 1.0
+        0.0 ≤ S(t) ≤ 1.0
+
+        ẋ(t) == [-(1 - u(t)) * β * S(t) * I(t),
+                    (1 - u(t)) * β * S(t) * I(t) - γ * I(t),
+                -u(t)]
+
+        -S(tf) → min
+    end
+
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt; 
+        scheme = :gauss_legendre_3, 
+        grid_size=1000, 
+        tol=1e-9, 
+        display=true,
+    )
+    return sol
 end
 ```
 
@@ -56,7 +57,6 @@ umax = [1  , 0.5]
 sol1 = SIRocp(tf, S0, I0, Q[1], β[1], γ, umax[1]) 
 sol2 = SIRocp(tf, S0, I0, Q[2], β[2], γ, umax[2])
 ```
-
 
 ## Case 1: $\beta = 0.6$, $\bar{u} = 1$ and $Q=28$
 
@@ -95,12 +95,7 @@ plot!([NaN], [NaN], label=L"$u$", lw=2, color=:darkred)
 xlims!(0,101)
 ```
 
-
-
-
-
 ## Case 2: $\beta = 0.9$, $\bar{u} = 0.5$ and $Q=10$
-
 
 ```@example main
 gr()
@@ -216,5 +211,3 @@ plot!([NaN], [NaN], label = L"t_c \mapsto \log S(t_c) - \log S(t_c + \Delta)", l
 plot!([NaN], [NaN], label = L"t^*", lw = 1.5, ls = :dash, color = :black)
 xlims!(0,51)
 ```
-
-

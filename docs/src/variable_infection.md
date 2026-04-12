@@ -15,7 +15,9 @@ We consider a piecewise constant transmission rate that is given by
 \beta_2, \quad \text{if } t > T_c,
 \end{cases}
 ```
+
 Since β is discontinuous, we use an augmentation technique, which allows to rewrite trajectories defined over [0,T_c] and [T_c,T] in a common interval [0,1]. The variable change is the following:
+
 ```math
 \left\{
 \begin{array}{l}
@@ -28,6 +30,7 @@ u_1(s) = u(sT_c), \quad u_2(s) = u\big(s(T-T_c) + T_c\big),
 ```
 
 Hence, the (augmented) control system is given by
+
 ```math
 \left\{
 \begin{array}{lcl}
@@ -43,21 +46,25 @@ Hence, the (augmented) control system is given by
 ```
 
 Furthermore, the initial conditions write as follows
+
 ```math
 S_1(0)=S_0,\quad I_1(0)=I_0,\quad C_1(0)=K,
 ```
 
 and to ensure continuity of the state variables, we impose the following constraints:
+
 ```math
 S_2(0)=S_1(1),\quad I_2(0)=I_1(1),\quad C_2(0)=C_1(1),
 ```
 
 the terminal condition becomes
+
 ```math
 C_1(1)\ge 0,\quad C_2(1)\ge 0.
 ```
 
 Thus, this procedure allows to reduce Problem 𝒫_S (with piecewise constant β) to an equivalent optimal control problem with smooth dynamics (given above) that writes
+
 ```math
 \sup_{(u_1(\cdot),u_2(\cdot)) \in \mathcal{U}} S_2(1)
 ```
@@ -65,6 +72,7 @@ Thus, this procedure allows to reduce Problem 𝒫_S (with piecewise constant β
 with u₁(s), u₂(s) ∈ [0,ū] for a.e. s∈[0,1].
 
 Finally, to recover the original state variables (S, I, C) and the control function u on [0,T], we use the inverse change of variables:
+
 ```math
 (S(t), I(t), C(t)) =
 \begin{cases}
@@ -72,6 +80,7 @@ Finally, to recover the original state variables (S, I, C) and the control funct
 (S_2, I_2, C_2)\big(\tfrac{t-T_c}{T-T_c}\big), & t \in [T_c,T],
 \end{cases}
 ```
+
 ```math
 u(t) =
 \begin{cases}
@@ -80,12 +89,11 @@ u_2\big(\tfrac{t-T_c}{T-T_c}\big), & t \in [T_c,T].
 \end{cases}
 ```
 
-
 ```@example main
 tf   = 700
-τ     = 50
+τ    = 50
 γ    = 0.15
-Q     = 35
+Q    = 35
 umax = 0.8
 
 β1   = [0.4, 0.7, 0.4, 0.2]
@@ -98,73 +106,80 @@ I0   = 0.001
 ```@example main
 function SIRocp2beta(T, S0, I0, Q, τ, β1, β2, γ, umax)
 
-	ocp = @def begin
-	        t ∈ [0, 1], time
-	        x = (S1, I1, C1, S2, I2, C2) ∈ R^6, state
-	        ω = [u1, u2] ∈ R^2, control
+    ocp = @def begin
+        t ∈ [0, 1], time
+        x = (S1, I1, C1, S2, I2, C2) ∈ R^6, state
+        ω = [u1, u2] ∈ R^2, control
 
-	        S1(0) == S0
-	        I1(0) == I0
-	        C1(0) == Q
-            S2(0) - S1(1) == 0.0
-	        I2(0) - I1(1) == 0.0
-	        C2(0) - C1(1) == 0.0
+        S1(0) == S0
+        I1(0) == I0
+        C1(0) == Q
+        S2(0) - S1(1) == 0.0
+        I2(0) - I1(1) == 0.0
+        C2(0) - C1(1) == 0.0
 
-	        C1(1) ≥ 0.0
-            C2(1) ≥ 0.0
+        C1(1) ≥ 0.0
+        C2(1) ≥ 0.0
 
-	        0 ≤ u1(t) ≤ umax
-	        0 ≤ u2(t) ≤ umax
+        0 ≤ u1(t) ≤ umax
+        0 ≤ u2(t) ≤ umax
 
-	        0.0 ≤ I1(t) ≤ 1.0
-	        0.0 ≤ S1(t) ≤ 1.0
-            0.0 ≤ I2(t) ≤ 1.0
-	        0.0 ≤ S2(t) ≤ 1.0
+        0.0 ≤ I1(t) ≤ 1.0
+        0.0 ≤ S1(t) ≤ 1.0
+        0.0 ≤ I2(t) ≤ 1.0
+        0.0 ≤ S2(t) ≤ 1.0
 
-	        ẋ(t) == [-τ * (1 - u1(t)) * β1 * S1(t) * I1(t),
-	                  τ * ((1 - u1(t)) * β1 * S1(t) * I1(t) - γ * I1(t)),
-	                 -τ * u1(t),
-                     -(T-τ) * (1 - u2(t)) * β2 * S2(t) * I2(t),
-	                  (T-τ) * ((1 - u2(t)) * β2 * S2(t) * I2(t) - γ * I2(t)),
-	                 -(T-τ) * u2(t)              
-                    ]
+        ẋ(t) == [
+                -τ * (1 - u1(t)) * β1 * S1(t) * I1(t),
+                τ * ((1 - u1(t)) * β1 * S1(t) * I1(t) - γ * I1(t)),
+                -τ * u1(t),
+                -(T-τ) * (1 - u2(t)) * β2 * S2(t) * I2(t),
+                (T-τ) * ((1 - u2(t)) * β2 * S2(t) * I2(t) - γ * I2(t)),
+                -(T-τ) * u2(t)              
+        ]
 
-	        -S2(1) → min
-	end
+        -S2(1) → min
+    end
 
-	sol = nothing
-	sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=50,
-	                    init=sol,
-                        tol=1e-8)
-    sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=500,
-	                    init=sol,
-                        tol=1e-8)
-    sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=2000,
-	                    init=sol,
-                        tol=1e-6)
-    sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=2000,
-	                    init=sol,
-                        tol=1e-9)
-    sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=4000,
-	                    init=sol,
-                        tol=1e-6)
-	sol = solve(ocp, :direct, :adnlp, :ipopt;
-	                    disc_method = :midpoint,
-	                    grid_size=4000,
-	                    init=sol,
-                        tol=1e-8)
+    sol = nothing
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=50,
+        init=sol,
+        tol=1e-8)
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=500,
+        init=sol,
+        tol=1e-8)
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=2000,
+        init=sol,
+        tol=1e-6)
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=2000,
+        init=sol,
+        tol=1e-9)
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=4000,
+        init=sol,
+        tol=1e-6)
+    sol = solve(
+        ocp, :collocation, :adnlp, :ipopt;
+        scheme = :midpoint,
+        grid_size=4000,
+        init=sol,
+        tol=1e-8)
 
-	return sol
+      return sol
 end
 ```
 
@@ -215,42 +230,50 @@ function plot_solution(sol, T, τ, β1_val, β2_val, γ, problem_num; legend_pos
     Sh(t) = t < τ ? γ/β1_val : γ/β2_val
     
     # Create plot
-    p = plot(t_plot, S_vals, 
-         label=L"$S$",
-         xlabel=L"Time $t$",
-         linewidth=2.5,
-         legend=legend_position,
-         color=:blue,
-         framestyle=:box,
-         grid = false,
-         size=(900, 500),
-         dpi=300,
-         left_margin=8mm,
-         bottom_margin=6mm,
-         top_margin=3mm,
-         right_margin=5mm,
-         foreground_color_legend=:black,
-         background_color_legend=:white,
-         legend_foreground_color=:black,
-         legendfontsize=18,
-         tickfontsize=15,
-         guidefontsize=15)
+    p = plot(
+        t_plot, S_vals, 
+        label=L"$S$",
+        xlabel=L"Time $t$",
+        linewidth=2.5,
+        legend=legend_position,
+        color=:blue,
+        framestyle=:box,
+        grid = false,
+        size=(900, 500),
+        dpi=300,
+        left_margin=8mm,
+        bottom_margin=6mm,
+        top_margin=3mm,
+        right_margin=5mm,
+        foreground_color_legend=:black,
+        background_color_legend=:white,
+        legend_foreground_color=:black,
+        legendfontsize=18,
+        tickfontsize=15,
+        guidefontsize=15,
+    )
     
-    plot!(t_plot, I_vals,
-          label=L"$I$",
-          linewidth=2.5,
-          color=:green)
+    plot!(
+        t_plot, I_vals,
+        label=L"$I$",
+        linewidth=2.5,
+        color=:green
+    )
     
-    plot!(t_plot, u_vals,
-          label=L"$u$",
-          linewidth=2.5,
-          color=:red)
+    plot!(
+        t_plot, u_vals,
+        label=L"$u$",
+        linewidth=2.5,
+        color=:red
+    )
     
-    plot!(t -> Sh(t), 
-          label=L"$S_h$", 
-          linestyle=:dash, 
-          color=:black, 
-          linewidth=1.5)
+    plot!(
+        t -> Sh(t), 
+        label=L"$S_h$", 
+        linestyle=:dash, 
+        color=:black, 
+        linewidth=1.5
+    )
     
     xlims!(0, 120)
     ylims!(0, 1.05)
@@ -274,21 +297,21 @@ function plot_solution(sol, T, τ, β1_val, β2_val, γ, problem_num; legend_pos
            alpha=0.7,
            label="")
     
-    plot!([τ, τ],
-          [0, γ / max(β1_val, β2_val)],
-          color = :black,
-          linestyle = :dot,
-          linewidth = 1.0,
-          label = false)
+    plot!(
+        [τ, τ],
+        [0, γ / max(β1_val, β2_val)],
+        color = :black,
+        linestyle = :dot,
+        linewidth = 1.0,
+        label = false
+    )
     
     return p
 end
 
 ```
 
-
 ## case 1: $\beta_1 > \beta_2$ (two interventions)
-
 
 ```@example main
 p1 = plot_solution(sol1, tf, τ, β1[1], β2[1], γ, 1)
@@ -300,9 +323,7 @@ p1 = plot_solution(sol1, tf, τ, β1[1], β2[1], γ, 1)
 p2 = plot_solution(sol2, tf, τ, β1[2], β2[2], γ, 2)
 ```
 
-
 ## case 3: $\beta_1 < \beta_2$ (two interventions)
-
 
 ```@example main
 p3 = plot_solution(sol3, tf, τ, β1[3], β2[3], γ, 3)
